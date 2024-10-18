@@ -1,0 +1,438 @@
+body {
+    background-color: #0a2242;
+}
+
+.header-container {
+    background-color: #9cc3b1;
+    font-family: monospace;
+    font-weight: 550;
+    color: #1f5970;
+    text-align: center;
+    font-size: 4rem;
+    border-bottom: 4px solid black;
+}
+
+.auth-container {
+    background-color: #ECE7E2;
+    text-align: center;
+    align-items: center;
+    position: absolute;
+    width: 45vw;
+    height: 70vh;
+    border-radius: 2.5rem;
+    transform: translateX(-50%) translateY(-50%);
+    left: 50%;
+    top: 50%;
+}
+
+.submit{
+    background-color: #0a2242;
+    position: absolute;
+    transform: translateX(-50%) translateY(-50%);
+    left: 50%;
+    top: 75%;
+    border-radius: 2rem;
+    height: 7vh;
+    width: 12vw;
+    text-align: center;
+}
+
+.submit:hover{
+    cursor: pointer;
+    background-color: #030b14;
+}
+
+.login-submit {
+    position: absolute;
+    transform: translateX(-50%) translateY(-50%);
+    left: 50%;
+    top: 50%;
+    color: white;
+    font-family: monospace;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.login-container {
+    background-color: #E8EAE5;
+    font-weight: 100;
+    font-size: 1.4rem;
+    width: 5vw;
+    border-radius: 4rem;
+    position: absolute;
+    top: 6%;
+    left: 87%;
+    transform: translateY(-50%) translateX(-50%);
+}
+
+.login-container:hover{
+    background-color: #e0e2dd;
+    cursor: pointer;
+}
+
+.username{
+    position: absolute;
+    transform: translateX(-50%) translateY(-50%);
+    left: 50%;
+    font-size: 1.5rem;
+    text-align: center;
+    top: 25%;
+}
+
+.password{
+    position: absolute;
+    transform: translateX(-50%) translateY(-50%);
+    left: 50%;
+    font-size: 1.5rem;
+    text-align: center;
+    top: 45%;
+}
+
+.register-container {
+    background-color: #9CAF88;
+    font-weight: 100;
+    font-size: 1.4rem;
+    width: 7vw;
+    border-radius: 4rem;
+    position: absolute;
+    top: 6%;
+    left: 94%;
+    transform: translateY(-50%) translateX(-50%);
+    border: 2px solid black;
+}
+
+.register-container:hover{
+    background-color: #8d9d7b;
+    cursor: pointer;
+}
+
+.side-bar{
+    position: static;
+    background-color: #232323;
+    color: white;
+    font-family: monospace;
+    width: 12vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.boxes-container {
+    position: absolute;
+    transform: translateX(-50%) translateY(-50%);
+    left: 55%;
+    top: 50%;
+    width: 50vw;
+}
+
+.boxes {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    transition: transform 0.3s ease-in-out
+}
+
+.boxes li{
+    display: inline-block;
+    height: 14vh;
+    width: 14vw;
+    margin: 10px;
+    text-align: center;
+    background-color: red;
+    font-size: 1.6rem;
+    font-family: monospace;
+    align-content: center;
+    font-weight: 500;
+    color: black;
+    border-radius: 2rem;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    transform: rotateY(0deg);
+    z-index: 0;
+}
+.boxes :nth-child(4) {
+    margin-left: 8vw;
+}
+
+.boxes li:hover{
+    cursor: pointer;
+    background-color: #89ab9b;
+}
+
+
+
+.lang-picker{
+    background-color: #e0e2dd;
+    z-index: 1;
+    transform: translateX(-50%) translateY(-50%);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 30vw;
+    border-radius: 2rem;
+    height: 60vh;
+    text-align: center;
+}
+
+.close{
+    background-color: rgb(255, 76, 76);
+    transform: translateX(-50%) translateY(-50%);
+    position: absolute;
+    left: 50%;
+    top: 90%;
+    width: 5vw;
+    height: 4vh;
+    font-family: monospace;
+    align-content: center;
+    color: white;
+    border-radius: 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.close:hover{
+    background-color: rgb(210, 62, 62);
+    cursor: pointer;
+}
+
+.langs li{
+    background-color: #89ab9b;
+    transform: translateX(-50%) translateY(-50%);
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    width: 12vw;
+    height: 4vh;
+    font-family: monospace;
+    align-content: center;
+    color: white;
+    border-radius: 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+
+}
+
+.langs li:hover{
+    background-color: #748f82;
+    cursor: pointer;
+}
+
+.lang-button{
+    background-color: #89ab9b;
+    border-radius: 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-style: monospace;
+}
+
+.flashcard {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    cursor: pointer;
+}
+
+
+.flashcard.flipped {
+    transform: rotateY(180deg);
+}
+
+
+.flashcard > div {
+    background-color: #e0e2dd;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: white;
+    border-radius: 10px;
+}
+
+
+.flashcard .front {
+    background-color: #89ab9b;
+    position: absolute;
+    z-index: 2;
+    top: 0%;
+}   
+.flashcard .front:hover{
+    background-color: #789487;
+}
+
+
+.flashcard .back {
+    position: absolute;
+    background-color: #89ab9b;
+    transform: rotateY(180deg); 
+    z-index: 1;
+    top: 0%;
+}
+.flashcard .back:hover {
+    background-color: #799487;
+}
+
+.sign-out{
+    position: absolute;
+    top: 95%;
+    left: 6%;
+    
+    font-family: monospace;
+    border-radius: 2rem;
+    font-weight: 700;
+    background-color: rgb(24, 24, 24);
+    width: 10vw;
+    height: 6vh;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    transform: translateX(-50%) translateY(-50%);
+}
+.sign-out:hover {
+    background-color: rgb(40, 40, 40);
+    cursor: pointer;
+}
+
+.arrows-container {
+    position: absolute;
+    transform: translateX(-50%) translateY(-50%);
+    left: 53%;
+    top: 80%;
+    width: 45vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.left-arrow {
+    background-color: #89ab9b;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    width: 3vw;
+    height: 4vh;
+    border-radius: 2rem;
+    align-self: left;
+}
+.left-arrow:hover{
+    background-color: #799789;
+    cursor: pointer;
+}
+
+.right-arrow {
+    background-color: #89ab9b;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    width: 3vw;
+    height: 4vh;
+    position: relative;
+    border-radius: 2rem;
+}
+.right-arrow:hover{
+    background-color: #799789;
+    cursor: pointer;
+}
+@keyframes goPrev {
+    from {
+        visibility: visible;
+        opacity: 1;
+    }
+    0% {
+        visibility: visible;
+        opacity: 1;
+        transform: translateX(-50%);
+    }
+    25% {
+        visibility: hidden;
+        opacity: 0;
+        transform: translateX(-100vw);
+    }
+    75% {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateX(200vw);
+    }
+    to {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+@keyframes goNext {
+    from {
+        visibility: visible;
+        opacity: 1;
+    }
+    0% {
+        visibility: visible;
+        opacity: 1;
+        transform: translateX(-50%);
+    }
+    25% {
+        visibility: hidden;
+        opacity: 0;
+        transform: translateX(100vw);
+    }
+    75% {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateX(-200vw);
+    }
+    to {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.goPrev{
+    animation: goPrev 0.25s;
+}
+
+.goNext{
+    animation: goNext 0.25s;
+}
+.switch {    
+    text-align: center;
+    padding: 2rem;
+}
+.switch li {
+    transform: translateX(-30%) translateY(-50%);
+    margin: 2rem;
+    font-size: 1rem;
+    width: 10vw;
+    background-color: #030b14;
+    padding: 1rem;
+    border-radius: 2rem;
+    font-weight: 600;
+}
+.switch li:hover {
+    background-color: #07192d;
+    cursor: pointer;
+}
+
+.side-buttons {
+    position: absolute;
+    top: 27%;
+    left: 2.1%;
+}
+.side-buttons li {
+    color: white;
+    font-style: monospace;
+    transform: translateX(-30%) translateY(-50%);
+    margin: 2rem;
+    font-size: 1rem;
+    width: 10vw;
+    background-color: #030b14;
+    padding: 1rem;
+    border-radius: 2rem;
+    font-weight: 600;
+}
+.side-buttons li:hover {
+    background-color: #071a30;
+    cursor: pointer;
+}

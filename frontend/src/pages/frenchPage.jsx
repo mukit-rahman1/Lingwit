@@ -1,0 +1,121 @@
+import { useState } from "react";
+import HeaderTop from "./headerTop";
+import SideBar from "./sideBar";
+import axios from "axios";
+
+function FrenchPage() {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const numbToDisplay = 5;
+    const [flip, setFlip] = useState([]);
+    const [slide, setSlide] = useState('');
+    const [initialRun, setInitialRun] = useState(true);
+    const [words, setWords] = useState([
+            { front: "1", back: 'one' },
+            { front: "2", back: 'two' },
+            { front: "3", back: "three"},
+            { front: "4", back: "four"},
+            { front: "5", back: "five"},
+            { front: "6", back: "six"},
+            { front: "7", back: "seven"},
+            { front: "8", back: "eight"},
+            { front: "9", back: "nine"},
+            { front: "10", back: "ten"}
+    ]);
+    const [newWordIndex, setNewWordIndex] = useState(0);
+
+    const nextWords = () => {
+        if (currentIndex < (words.length - numbToDisplay)){
+            setInitialRun(false);
+            setSlide('right');
+            setCurrentIndex(currentIndex + numbToDisplay);
+        }
+    }
+
+    const prevWords = () => {
+        if (currentIndex > 0){
+            setInitialRun(false);
+            setSlide('left');
+            setCurrentIndex(currentIndex - numbToDisplay);
+        }
+    }
+
+    const handleFlip = (index) => {
+        setFlip((prev) => {
+            const newFlippedIndex = [...prev];
+
+            if (newFlippedIndex[index]){
+                newFlippedIndex[index] = false;
+            } else {
+                newFlippedIndex[index] = true;
+            };
+            return newFlippedIndex;
+        })
+    };
+
+    const newWords = [
+        { front: "11", back: "six"},
+        { front: "12", back: "seven"},
+        { front: "13", back: "eight"},
+        { front: "14", back: "nine"},
+        { front: "15", back: "ten"},
+        { front: "16", back: "six"},
+        { front: "17", back: "seven"},
+        { front: "18", back: "eight"},
+        { front: "19", back: "nine"},
+        { front: "20", back: "ten"}
+    ];
+
+    const handleAdd = () => {
+        if (newWordIndex < newWords.length){
+            const newWordsAdd = newWords.slice(newWordIndex, newWordIndex + numbToDisplay);
+            setWords(prevWords => [...prevWords, ...newWordsAdd]);
+            setNewWordIndex(newWordIndex + numbToDisplay);
+        }
+    }
+
+    const handleRemove = () => {
+        setWords(prevWords => prevWords.slice(0, -5));
+    }
+
+    const display = words.slice(currentIndex, currentIndex + numbToDisplay);
+
+    const renderCards = display.map((word, index) => (
+        <li key={index} className={`flashcard ${flip[index] ? 'flipped' : ''}`} onClick={() => handleFlip(index)}>
+                <div className="front">{word.front}</div>
+                <div className="back">{word.back}</div>
+        </li>
+    ));
+
+    let slideClass = '';
+    if (slide === 'right' && initialRun == false){
+        slideClass = 'goPrev';
+    }
+    if (slide === 'left' && initialRun == false){
+        slideClass = 'goNext';
+    }
+
+
+
+    return (<>
+        <HeaderTop />
+        <SideBar />
+        <ul className="side-buttons">
+            <li onClick={handleAdd}>Add Five More</li>
+            <li onClick={handleRemove}>Remove Last Five</li>
+        </ul>
+
+        <div className="boxes-container">
+            <ul className={`boxes ${slideClass}`}>
+                {renderCards}
+            </ul>
+        </div>
+
+        <div className="arrows-container">
+            <div className="left-arrow" onClick={prevWords}>←</div>
+            <div className="text-white font-mono"> {(currentIndex + numbToDisplay)/numbToDisplay } / { words.length / numbToDisplay} </div>
+            <div className="right-arrow" onClick={nextWords}>→</div>
+        </div>
+    </>)
+}
+
+export default FrenchPage;
