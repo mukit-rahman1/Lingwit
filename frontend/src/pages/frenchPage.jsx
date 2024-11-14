@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HeaderTop from "./headerTop";
 import SideBar from "./sideBar";
 import axios from "axios";
@@ -21,6 +21,7 @@ function FrenchPage() {
             { front: "9", back: "nine"},
             { front: "10", back: "ten"}
     ]);
+    const [newWords, setNewWords] = useState([]);
     const [newWordIndex, setNewWordIndex] = useState(0);
 
     const nextWords = () => {
@@ -52,18 +53,10 @@ function FrenchPage() {
         })
     };
 
-    const newWords = [
-        { front: "11", back: "six"},
-        { front: "12", back: "seven"},
-        { front: "13", back: "eight"},
-        { front: "14", back: "nine"},
-        { front: "15", back: "ten"},
-        { front: "16", back: "six"},
-        { front: "17", back: "seven"},
-        { front: "18", back: "eight"},
-        { front: "19", back: "nine"},
-        { front: "20", back: "ten"}
-    ];
+    useEffect(() => {
+        axios.get('/api/french').then(response => setNewWords(response.data))
+        .catch(error => console.log("Error fetching: ", error));
+    });
 
     const handleAdd = () => {
         if (newWordIndex < newWords.length){
