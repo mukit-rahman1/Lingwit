@@ -1,6 +1,7 @@
 import HeaderTop from "./headerTop";
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function LoginPage() {
     const [username, setUsername] = useState("");
@@ -8,17 +9,20 @@ function LoginPage() {
     const [status, setStatus] = useState("");
     const navigate = useNavigate();
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
         try {
-            const response = axios.post('http://localhost:3000/api/v1/auth/login', {
+            const response = await axios.post('http://localhost:3000/api/auth/login', {
                 username,
                 password,
             });
             console.log("User logged in:", response.data);
             const token = response.data.token;
             localStorage.setItem("token", token);
+            localStorage.setItem('userId', response.data.userId);
             navigate('/homepage');
         } catch (error) {
+            console.log(error);
+            console.log("login error: ", error.response ? error.response.data : error.message)
             setStatus("Incorrect Username or Password!");
         }
     }

@@ -4,6 +4,7 @@ import SideBar from "./sideBar";
 import axios from "axios";
 
 function FrenchPage() {
+    const [userId, setUserId] = useState(null);
     const [currentIndex, setCurrentIndex] = useState(0);
     const numbToDisplay = 5;
     const [flip, setFlip] = useState([]);
@@ -53,16 +54,50 @@ function FrenchPage() {
         })
     };
 
+
+    
+
+
     useEffect(() => {
         axios.get('/api/french').then(response => setNewWords(response.data))
         .catch(error => console.log("Error fetching: ", error));
-    });
+    }, []);
+
+    useEffect(() => {
+        if (userId) {
+            axios.get(`/api/auth/user/${userId}`)
+            .then((response) => {
+                const fetchedIndex = response.data.frenchIndex;
+                setNewWordIndex(fetchedIndex)
+            }).catch((error) => {
+                console.log("error fetching french index: ", error);
+            })
+        }
+    }, []);
+
+    useEffect(() => {
+        const storedUserId = localStorage.getItem("userId"); // Assuming userId is stored during login
+        if (storedUserId) {
+            setUserId(storedUserId);
+        } else {
+            console.log("User is not logged in.");
+        }
+    }, []);
 
     const handleAdd = () => {
         if (newWordIndex < newWords.length){
             const newWordsAdd = newWords.slice(newWordIndex, newWordIndex + numbToDisplay);
             setWords(prevWords => [...prevWords, ...newWordsAdd]);
+            const updatedIndex = newWordIndex + numbToDisplay;
             setNewWordIndex(newWordIndex + numbToDisplay);
+
+            //backend update
+            if(userId){
+                axios.put(`api/auth/user/${userId}`, {frenchIndex: updatedIndex})
+                .then(() => {
+                    console.log("French index successfully updated");
+                }).catch((error) => console.log("error updating index ", error));
+            } else ( console.log("no user id"));
         }
     }
 
