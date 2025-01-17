@@ -1,9 +1,11 @@
 import HeaderTop from "./headerTop";
 import SideBar from "./sideBar";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
     const [langPick, setLangPick] = useState(false);
+    const navigate = useNavigate();
 
 
     const handleLangPick = () => {
@@ -13,18 +15,25 @@ function HomePage() {
             setLangPick(true);
         }
     }
+    const handleLogOut = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        navigate('/');
+    }
+
 
     return (<>
         <HeaderTop />
         <div className="side-bar">
         <div className="sign-out">
-            <a>Sign Out</a>
+            <a onClick={handleLogOut}>Sign Out</a>
         </div>
         </div>
         <div className="boxes-container">
             <ul className="boxes">
-                <li>Hi</li>
-                <li>Hi</li>
+                <a href="/french">
+                <li>🇫🇷 French</li>
+                </a>
                 <li onClick={handleLangPick}>Select Other</li>
             </ul>
         </div>

@@ -139,7 +139,7 @@ body {
     width: 14vw;
     margin: 10px;
     text-align: center;
-    background-color: red;
+    background-color: #89ab9b;
     font-size: 1.6rem;
     font-family: monospace;
     align-content: center;
@@ -157,7 +157,7 @@ body {
 
 .boxes li:hover{
     cursor: pointer;
-    background-color: #89ab9b;
+    background-color: #748f82;
 }
 
 
