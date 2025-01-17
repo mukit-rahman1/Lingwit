@@ -24,6 +24,7 @@ function FrenchPage() {
     ]);
     const [newWords, setNewWords] = useState([]);
     const [newWordIndex, setNewWordIndex] = useState(0);
+    const [frenchIndex, setFrenchIndex] = useState(0);
 
     const nextWords = () => {
         if (currentIndex < (words.length - numbToDisplay)){
@@ -55,7 +56,7 @@ function FrenchPage() {
     };
 
 
-    
+
 
 
     useEffect(() => {
@@ -75,6 +76,53 @@ function FrenchPage() {
         }
     }, []);
 
+    useEffect(() => {//fetching FR index
+        const fetchFrenchIndex = async () => {
+            try {
+                const userId = localStorage.getItem("userId");
+                if(!userId){
+                    console.log('User not logged in');
+                    return;
+                }
+
+
+                const response = await axios.get(`http://localhost:3000/api/auth/user/${userId}`);
+                if (response.status === 200){
+                    const fetchedIndex = response.data.frenchIndex || 0;
+                    setFrenchIndex(fetchedIndex);
+
+                    //fetching word
+                    const wordRes = await axios.get('/api/french');
+                    if(wordRes.status === 200){
+                        const allWords = wordRes.data;
+                        const initWords = allWords.slice(0, fetchedIndex + numbToDisplay);
+                        setWords(initWords);
+                        setNewWordIndex(fetchedIndex);
+                    }
+                }
+            } catch (error) {
+                console.log("err fetching FR index or words", error);
+            }
+        }
+
+        fetchFrenchIndex();
+    })
+
+//update FR index
+        const updateFrenchIndex = async(newIndex) => {
+            try {
+                const userId = localStorage.getItem("userId");
+                const response = await axios.put(`http://localhost:3000/api/auth/user/${userId}`, {
+                    frenchIndex: newIndex
+                });
+                if (response.status === 200){
+                    console.log("updated", frenchIndex);
+                }
+            } catch (error) {
+                console.log("err updating FR index", error);
+            }
+        }
+
     useEffect(() => {
         const storedUserId = localStorage.getItem("userId"); // Assuming userId is stored during login
         if (storedUserId) {
@@ -85,24 +133,35 @@ function FrenchPage() {
     }, []);
 
     const handleAdd = () => {
-        if (newWordIndex < newWords.length){
-            const newWordsAdd = newWords.slice(newWordIndex, newWordIndex + numbToDisplay);
-            setWords(prevWords => [...prevWords, ...newWordsAdd]);
-            const updatedIndex = newWordIndex + numbToDisplay;
-            setNewWordIndex(newWordIndex + numbToDisplay);
-
-            //backend update
-            if(userId){
-                axios.put(`api/auth/user/${userId}`, {frenchIndex: updatedIndex})
-                .then(() => {
-                    console.log("French index successfully updated");
-                }).catch((error) => console.log("error updating index ", error));
-            } else ( console.log("no user id"));
+        try {
+            if (newWordIndex < newWords.length){
+                const newWordsAdd = newWords.slice(newWordIndex, newWordIndex + numbToDisplay);
+                setWords(prevWords => [...prevWords, ...newWordsAdd]);
+                const updatedIndex = newWordIndex + numbToDisplay;
+                setNewWordIndex(newWordIndex + numbToDisplay);
+    
+                //backend update
+                if(userId){
+                    updateFrenchIndex(updatedIndex);
+                    } 
+                    else {console.log("no user id")};
+            }
+        } catch (error) {
+            console.log("err adding", error);
         }
     }
 
     const handleRemove = () => {
-        setWords(prevWords => prevWords.slice(0, -5));
+        const updatedIndex = newWordIndex-numbToDisplay;
+        setWords(prevWords => prevWords.slice(0, -numbToDisplay));
+        setNewWordIndex(updatedIndex);
+
+        if(userId){
+            updateFrenchIndex(updatedIndex);
+            } 
+            else {
+                console.log("no user id")
+            };
     }
 
     const display = words.slice(currentIndex, currentIndex + numbToDisplay);

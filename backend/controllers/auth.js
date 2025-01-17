@@ -34,14 +34,17 @@ const login = async(req, res) => {
 
 
 //send data
-const sendFrenchIndex = async() => {
+const sendFrenchIndex = async(req, res) => {
     try {
         const {userId} = req.params;
         const user = await UserSchema.findById(userId);
+        
         if (!user){
             return res.status(404).json({error: "user not found"});
         }
+        
         res.status(200).json({frenchIndex: user.frenchIndex});
+        console.log("send frI 200")
     } catch (error) {
         console.log(error);
         res.status(500).json({error: "Internal server error"});
@@ -64,6 +67,7 @@ const updateFrenchIndex = async(req, res) => {
     await user.save();
 
     res.status(200).json({msg: "French index saved", frenchIndex})
+    console.log("update frI 200")
     } catch (error) {
         console.log("index saving err", error);
         res.status(500).json({error: "Internal server error"});
