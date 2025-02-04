@@ -11,42 +11,42 @@ function FrenchPage() {
     const [slide, setSlide] = useState('');
     const [initialRun, setInitialRun] = useState(true);
     const [words, setWords] = useState([
-            { front: "1", back: 'one' },
-            { front: "2", back: 'two' },
-            { front: "3", back: "three"},
-            { front: "4", back: "four"},
-            { front: "5", back: "five"},
-            { front: "6", back: "six"},
-            { front: "7", back: "seven"},
-            { front: "8", back: "eight"},
-            { front: "9", back: "nine"},
-            { front: "10", back: "ten"}
+        { front: "1", back: 'one' },
+        { front: "2", back: 'two' },
+        { front: "3", back: "three" },
+        { front: "4", back: "four" },
+        { front: "5", back: "five" },
+        { front: "6", back: "six" },
+        { front: "7", back: "seven" },
+        { front: "8", back: "eight" },
+        { front: "9", back: "nine" },
+        { front: "10", back: "ten" }
     ]);
     const [newWords, setNewWords] = useState([]);
     const [newWordIndex, setNewWordIndex] = useState(0);
     const [frenchIndex, setFrenchIndex] = useState(0);
 
-    const nextWords = () => {
-        if (currentIndex < (words.length - numbToDisplay)){
+    const nextWords = () => {//GOING FORWARD
+        if (currentIndex < (words.length - numbToDisplay)) {
             setInitialRun(false);
             setSlide('right');
             setCurrentIndex(currentIndex + numbToDisplay);
         }
     }
 
-    const prevWords = () => {
-        if (currentIndex > 0){
+    const prevWords = () => {//GOING BACK
+        if (currentIndex > 0) {
             setInitialRun(false);
             setSlide('left');
             setCurrentIndex(currentIndex - numbToDisplay);
         }
     }
 
-    const handleFlip = (index) => {
+    const handleFlip = (index) => {//FLIPPING
         setFlip((prev) => {
             const newFlippedIndex = [...prev];
 
-            if (newFlippedIndex[index]){
+            if (newFlippedIndex[index]) {
                 newFlippedIndex[index] = false;
             } else {
                 newFlippedIndex[index] = true;
@@ -55,45 +55,37 @@ function FrenchPage() {
         })
     };
 
-
-
-
-
-    useEffect(() => {
+    useEffect(() => {//get list of French words
         axios.get('/api/french').then(response => setNewWords(response.data))
-        .catch(error => console.log("Error fetching: ", error));
+            .catch(error => console.log("Error fetching: ", error));
     }, []);
 
-    useEffect(() => {
-        if (userId) {
-            axios.get(`/api/auth/user/${userId}`)
-            .then((response) => {
-                const fetchedIndex = response.data.frenchIndex;
-                setNewWordIndex(fetchedIndex)
-            }).catch((error) => {
-                console.log("error fetching french index: ", error);
-            })
+
+    useEffect(() => {//FETCH USER ID INITIAL
+        const userIdFromStorage = localStorage.getItem('userId');
+        if(userIdFromStorage){
+            setUserId(userIdFromStorage);
         }
-    }, []);
+    }, [])
 
-    useEffect(() => {//fetching FR index
+    useEffect(() => {//FROM USER ID FETCH CORRESPONDING FRENCH INDEX(MAX WORDS)
         const fetchFrenchIndex = async () => {
             try {
-                const userId = localStorage.getItem("userId");
-                if(!userId){
+                
+                if (!userId) {
                     console.log('User not logged in');
                     return;
                 }
 
 
                 const response = await axios.get(`http://localhost:3000/api/auth/user/${userId}`);
-                if (response.status === 200){
+                if (response.status === 200) {
                     const fetchedIndex = response.data.frenchIndex || 0;
                     setFrenchIndex(fetchedIndex);
 
                     //fetching word
                     const wordRes = await axios.get('/api/french');
-                    if(wordRes.status === 200){
+                    if (wordRes.status === 200) {
                         const allWords = wordRes.data;
                         const initWords = allWords.slice(0, fetchedIndex + numbToDisplay);
                         setWords(initWords);
@@ -106,45 +98,38 @@ function FrenchPage() {
         }
 
         fetchFrenchIndex();
-    })
+    },[userId]);
 
-//update FR index
-        const updateFrenchIndex = async(newIndex) => {
-            try {
-                const userId = localStorage.getItem("userId");
-                const response = await axios.put(`http://localhost:3000/api/auth/user/${userId}`, {
-                    frenchIndex: newIndex
-                });
-                if (response.status === 200){
-                    console.log("updated", frenchIndex);
-                }
-            } catch (error) {
-                console.log("err updating FR index", error);
+    const updateFrenchIndex = async (newIndex) => {// UPDATE MAX FRENCH INDEX
+        try {
+            if(!userId){
+                console.log("Usr Id not found");
+                return
             }
+            const response = await axios.put(`http://localhost:3000/api/auth/user/${userId}`, {
+                frenchIndex: newIndex
+            });
+            if (response.status === 200) {
+                console.log("updated", frenchIndex);
+            }
+        } catch (error) {
+            console.log("err updating FR index", error);
         }
-
-    useEffect(() => {
-        const storedUserId = localStorage.getItem("userId"); // Assuming userId is stored during login
-        if (storedUserId) {
-            setUserId(storedUserId);
-        } else {
-            console.log("User is not logged in.");
-        }
-    }, []);
+    }
 
     const handleAdd = () => {
         try {
-            if (newWordIndex < newWords.length){
+            if (newWordIndex < newWords.length) {
                 const newWordsAdd = newWords.slice(newWordIndex, newWordIndex + numbToDisplay);
                 setWords(prevWords => [...prevWords, ...newWordsAdd]);
                 const updatedIndex = newWordIndex + numbToDisplay;
                 setNewWordIndex(newWordIndex + numbToDisplay);
-    
+
                 //backend update
-                if(userId){
+                if (userId) {
                     updateFrenchIndex(updatedIndex);
-                    } 
-                    else {console.log("no user id")};
+                }
+                else { console.log("no user id") };
             }
         } catch (error) {
             console.log("err adding", error);
@@ -152,32 +137,32 @@ function FrenchPage() {
     }
 
     const handleRemove = () => {
-        const updatedIndex = newWordIndex-numbToDisplay;
+        const updatedIndex = newWordIndex - numbToDisplay;
         setWords(prevWords => prevWords.slice(0, -numbToDisplay));
         setNewWordIndex(updatedIndex);
 
-        if(userId){
+        if (userId) {
             updateFrenchIndex(updatedIndex);
-            } 
-            else {
-                console.log("no user id")
-            };
+        }
+        else {
+            console.log("no user id")
+        };
     }
 
     const display = words.slice(currentIndex, currentIndex + numbToDisplay);
 
-    const renderCards = display.map((word, index) => (
+    const renderCards = display.map((word, index) => (// RENDER CARDS
         <li key={index} className={`flashcard ${flip[index] ? 'flipped' : ''}`} onClick={() => handleFlip(index)}>
-                <div className="front">{word.front}</div>
-                <div className="back">{word.back}</div>
+            <div className="front">{word.front}</div>
+            <div className="back">{word.back}</div>
         </li>
     ));
 
     let slideClass = '';
-    if (slide === 'right' && initialRun == false){
+    if (slide === 'right' && initialRun == false) {
         slideClass = 'goPrev';
     }
-    if (slide === 'left' && initialRun == false){
+    if (slide === 'left' && initialRun == false) {
         slideClass = 'goNext';
     }
 
@@ -199,7 +184,7 @@ function FrenchPage() {
 
         <div className="arrows-container">
             <div className="left-arrow" onClick={prevWords}>←</div>
-            <div className="text-white font-mono"> {(currentIndex + numbToDisplay)/numbToDisplay } / { words.length / numbToDisplay} </div>
+            <div className="text-white font-mono"> {(currentIndex + numbToDisplay) / numbToDisplay} / {words.length / numbToDisplay} </div>
             <div className="right-arrow" onClick={nextWords}>→</div>
         </div>
     </>)
