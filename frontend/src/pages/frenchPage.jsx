@@ -78,7 +78,7 @@ function FrenchPage() {
                 }
 
 
-                const response = await axios.get(`http://localhost:3000/api/auth/user/${userId}`);
+                const response = await axios.get(`https://lingwit-backend.onrender.com/api/auth/user/${userId}`);
                 if (response.status === 200) {
                     const fetchedIndex = response.data.frenchIndex || 0;
                     setFrenchIndex(fetchedIndex);
@@ -106,7 +106,7 @@ function FrenchPage() {
                 console.log("Usr Id not found");
                 return
             }
-            const response = await axios.put(`http://localhost:3000/api/auth/user/${userId}`, {
+            const response = await axios.put(`https://lingwit-backend.onrender.com/api/auth/user/${userId}`, {
                 frenchIndex: newIndex
             });
             if (response.status === 200) {
