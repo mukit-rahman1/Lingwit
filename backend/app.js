@@ -8,8 +8,6 @@ const cors = require('cors');
 
 
 
-app.use(express.json());
-app.use('/api/auth', authRouter);
 
 //cors
 const corsFunction = {
@@ -24,6 +22,10 @@ app.options('*', cors(corsFunction));
 //import routes
 const authRouter = require('./routes/auth');
 const authMiddleware = require('./middleware/auth');
+
+
+app.use(express.json());
+app.use('/api/auth', authRouter);
 
 app.get('/api/user', authMiddleware, async(req, res) => {
     try {
