@@ -22,6 +22,8 @@ function RegisterPage() {
             navigate('/homepage');
         } catch (error) {
             console.log(error.response ? error.response : error.data);
+            console.log("register error: ", error.response ? error.response.data : error.message)
+            setStatus("Username already exists");
         }
     }
 

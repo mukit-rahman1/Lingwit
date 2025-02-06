@@ -1,6 +1,12 @@
 const UserSchema = require('../model/user');
 
 const register = async(req, res) => {
+    const {username, password} = req.body;
+    const userCheck = await UserSchema.findOne({ username });
+    if (userCheck){
+        return res.status(400).json({ msg: 'User with this name exists'});
+    }
+
     const user = await UserSchema.create({ ...req.body });
     const token = user.createJWT();
     res.status(200).json({ user: user.username, userId:user._id, token});

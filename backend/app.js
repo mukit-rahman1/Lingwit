@@ -4,13 +4,16 @@ require('dotenv').config();
 const path = require("path");
 const connectDB = require('./db/connect');
 const UserSchema = require('./model/user');
+const cors = require('cors');
 
 //import routes
 const authRouter = require('./routes/auth');
 const authMiddleware = require('./middleware/auth');
-
+app.use(cors());
 app.use(express.json());
 app.use('/api/auth', authRouter);
+
+
 
 
 app.get('/api/user', authMiddleware, async(req, res) => {
@@ -44,7 +47,7 @@ app.get('*', (req, res) => {
 
 
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 //Connect to DB and Start
 const start = async() => {
     try {
