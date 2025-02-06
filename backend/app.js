@@ -16,11 +16,12 @@ app.use('/api/auth', authRouter);
 //cors
 const corsFunction = {
     origin:"lingwit-frontend.onrender.com",
-    methods: "GET,POST,PUT,DELETE",
-    allowedHeader: "Content-Type,Authorization",
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
+    allowedHeader: ["Content-Type","Authorization"],
     credentials: true
 };
 app.use(cors(corsFunction));
+app.options("*", cors(corsFunction));
 
 app.get('/api/user', authMiddleware, async(req, res) => {
     try {
