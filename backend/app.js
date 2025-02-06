@@ -6,9 +6,7 @@ const connectDB = require('./db/connect');
 const UserSchema = require('./model/user');
 const cors = require('cors');
 
-//import routes
-const authRouter = require('./routes/auth');
-const authMiddleware = require('./middleware/auth');
+
 
 app.use(express.json());
 app.use('/api/auth', authRouter);
@@ -16,12 +14,16 @@ app.use('/api/auth', authRouter);
 //cors
 const corsFunction = {
     origin:"https://lingwit-frontend.onrender.com",
-    methods: "GET,POST,PUT,DELETE,OPTIONS",
+    methods: "GET, POST, PUT, DELETE, OPTIONS",
     allowedHeader: ["Content-Type","Authorization"],
     credentials: true
 };
 app.use(cors(corsFunction));
 app.options('*', cors(corsFunction));
+
+//import routes
+const authRouter = require('./routes/auth');
+const authMiddleware = require('./middleware/auth');
 
 app.get('/api/user', authMiddleware, async(req, res) => {
     try {
