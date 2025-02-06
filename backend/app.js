@@ -15,7 +15,7 @@ app.use('/api/auth', authRouter);
 
 //cors
 const corsFunction = {
-    origin:"lingwit-frontend.onrender.com",
+    origin:"https://lingwit-frontend.onrender.com",
     methods: "GET,POST,PUT,DELETE,OPTIONS",
     allowedHeader: ["Content-Type","Authorization"],
     credentials: true
