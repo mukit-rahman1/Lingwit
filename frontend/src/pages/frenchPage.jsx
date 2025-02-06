@@ -56,7 +56,7 @@ function FrenchPage() {
     };
 
     useEffect(() => {//get list of French words
-        axios.get('/api/french').then(response => setNewWords(response.data))
+        axios.get('https://lingwit-backend.onrender.com/api/french').then(response => setNewWords(response.data))
             .catch(error => console.log("Error fetching: ", error));
     }, []);
 
