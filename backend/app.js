@@ -21,7 +21,7 @@ const corsFunction = {
     credentials: true
 };
 app.use(cors(corsFunction));
-app.options("*", cors(corsFunction));
+app.options('*', cors(corsFunction));
 
 app.get('/api/user', authMiddleware, async(req, res) => {
     try {
