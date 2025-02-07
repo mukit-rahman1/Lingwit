@@ -26,6 +26,9 @@ function FrenchPage() {
     const [newWordIndex, setNewWordIndex] = useState(0);
     const [frenchIndex, setFrenchIndex] = useState(0);
     console.log("is words an array? ", Array.isArray(words));
+    if(!Array.isArray(words)){
+        console.log(words);
+    }
 
     const nextWords = () => {//GOING FORWARD
         if (currentIndex < (words.length - numbToDisplay)) {
