@@ -59,7 +59,7 @@ function FrenchPage() {
         axios.get('https://lingwit-backend.onrender.com/api/french').then(response => setNewWords(response.data))
             .catch(error => console.log("Error fetching: ", error));
     }, []);
-
+//test
 
     useEffect(() => {//FETCH USER ID INITIAL
         const userIdFromStorage = localStorage.getItem('userId');
