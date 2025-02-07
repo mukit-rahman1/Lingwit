@@ -57,7 +57,7 @@ function FrenchPage() {
     };
 
     useEffect(() => {//get list of French words
-        console.log("is words an array? ", Array.isArray(words));
+        console.log("is words an array? 2nd", Array.isArray(words));
         axios.get('https://lingwit-backend.onrender.com/api/french').then(response => {
             console.log("Api res", response.data);
             console.log("type of", typeof response.data);
