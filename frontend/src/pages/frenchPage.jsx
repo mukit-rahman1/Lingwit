@@ -60,16 +60,10 @@ function FrenchPage() {
             console.log("Api res", response.data);
             console.log("type of", typeof response.data);
             console.log("is it an array", Array.isArray(response.data));
-
-            if(Array.isArray(response.data)){
-                setWords(response)
-            }
-            else{
-                console.log("invalid format", response.data);
-                setWords([]);
-            }
-        
-        setNewWords(response.data)
+            let tester =[];
+            tester = [...response.data];
+            console.log(tester);
+            setNewWords([...response.data]);
     })
             .catch(error => {console.log("Error fetching: ", error);
         setWords([])});
