@@ -1,4 +1,4 @@
-const frechWords = [
+const frenchWords = [
     { front: "bonjour", back: "hello" },
     { front: "au revoir", back: "goodbye" },
     { front: "merci", back: "thank you" },
@@ -282,4 +282,4 @@ const frechWords = [
 ];
 
 
-module.exports = frechWords;
+export default frenchWords;
