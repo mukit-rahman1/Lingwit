@@ -56,8 +56,23 @@ function FrenchPage() {
     };
 
     useEffect(() => {//get list of French words
-        axios.get('https://lingwit-backend.onrender.com/api/french').then(response => setNewWords(response.data))
-            .catch(error => console.log("Error fetching: ", error));
+        axios.get('https://lingwit-backend.onrender.com/api/french').then(response => {
+            console.log("Api res", response.data);
+            console.log("type of", typeof response.data);
+            console.log("is it an array", Array.isArray(response.data));
+
+            if(Array.isArray(response.data)){
+                setWords(response)
+            }
+            else{
+                console.log("invalid format", response.data);
+                setNewWords([]);
+            }
+        
+        setNewWords(response.data)
+    })
+            .catch(error => {console.log("Error fetching: ", error);
+        setWords([])});
     }, []);
 //test
 
