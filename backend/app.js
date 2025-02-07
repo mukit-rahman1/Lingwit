@@ -43,8 +43,16 @@ app.get('/api/user', authMiddleware, async(req, res) => {
 
 //french word list
 app.get('/api/french', (req, res) => {
-    const frenchData = require(path.join(__dirname, 'data', 'french.js'));
-    res.json(frenchData); 
+    try {
+        const frenchData = require(path.join(__dirname, 'data', 'french.js'));
+        if (!Array.isArray(frenchData)) {
+            return res.status(500).json({ error: "Invalid data format", words: frenchData });
+        }
+        res.json(frenchData);
+    } catch (error) {
+        console.error("error loading words:", error);
+        res.status(500).json({ error: "Error loading words" });
+    }
 })
 
 const port = process.env.PORT || 3000;

@@ -62,12 +62,11 @@ function FrenchPage() {
     useEffect(() => {//get list of French words
         console.log("is words an array? 2nd", Array.isArray(words));
         axios.get('https://lingwit-backend.onrender.com/api/french').then(response => {
-            console.log("Api res", response.data);
-            console.log("type of", typeof response.data);
-            console.log("is it an array", Array.isArray(response.data));
-            let tester =[];
-            tester = [...response.data];
-            console.log(tester);
+            console.log("API response at render:", response.data);
+            if (!Array.isArray(response.data)) {
+                console.error("API ret invalid data:", response.data);
+                return;
+            }
             setNewWords([...response.data]);
             setWords([...response.data])
     })
