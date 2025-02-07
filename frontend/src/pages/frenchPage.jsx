@@ -64,7 +64,7 @@ function FrenchPage() {
         console.log("is words an array? 2nd", Array.isArray(words));
         setWords(frenchWords);
     }, []);
-//test
+
 
     useEffect(() => {//FETCH USER ID INITIAL
         const userIdFromStorage = localStorage.getItem('userId');
@@ -81,21 +81,10 @@ function FrenchPage() {
                     console.log('User not logged in');
                     return;
                 }
-
-
                 const response = await axios.get(`https://lingwit-backend.onrender.com/api/auth/user/${userId}`);
                 if (response.status === 200) {
                     const fetchedIndex = response.data.frenchIndex || 0;
                     setFrenchIndex(fetchedIndex);
-
-                    //fetching word
-                    const wordRes = await axios.get('/api/french');
-                    if (wordRes.status === 200) {
-                        const allWords = wordRes.data;
-                        const initWords = allWords.slice(0, fetchedIndex + numbToDisplay);
-                        setWords(initWords);
-                        setNewWordIndex(fetchedIndex);
-                    }
                 }
             } catch (error) {
                 console.log("err fetching FR index or words", error);
