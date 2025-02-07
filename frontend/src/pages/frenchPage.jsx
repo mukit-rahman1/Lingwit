@@ -66,7 +66,7 @@ function FrenchPage() {
             }
             else{
                 console.log("invalid format", response.data);
-                setNewWords([]);
+                setWords([]);
             }
         
         setNewWords(response.data)
