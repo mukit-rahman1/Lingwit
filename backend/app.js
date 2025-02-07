@@ -7,8 +7,6 @@ const UserSchema = require('./model/user');
 const cors = require('cors');
 
 
-
-
 //cors
 const corsFunction = {
     origin:"https://lingwit-frontend.onrender.com",
@@ -48,15 +46,6 @@ app.get('/api/french', (req, res) => {
     const frenchData = require(path.join(__dirname, 'data', 'french.js'));
     res.json(frenchData); 
 })
-
-
-app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')));
-
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
-})
-
-
 
 const port = process.env.PORT || 3000;
 //Connect to DB and Start
