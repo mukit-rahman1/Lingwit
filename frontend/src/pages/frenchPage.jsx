@@ -62,7 +62,7 @@ function FrenchPage() {
 
     useEffect(() => {//get list of French words
         console.log("is words an array? 2nd", Array.isArray(words));
-        setWords(frenchWords);
+        setNewWords(frenchWords);
     }, []);
 
 
@@ -75,37 +75,35 @@ function FrenchPage() {
 
     useEffect(() => {//FROM USER ID FETCH CORRESPONDING FRENCH INDEX(MAX WORDS)
         const fetchFrenchIndex = async () => {
-            try {
-                
-                if (!userId) {
-                    console.log('User not logged in');
-                    return;
-                }
+            if (!userId) {
+                console.log('User not logged in');
+                setWords(frenchWords.slice(0, 10));
+                setNewWordIndex(10);
+                return;
+            }
+            
+            try {    
                 const response = await axios.get(`https://lingwit-backend.onrender.com/api/auth/user/${userId}`);
                 if (response.status === 200) {
                     const fetchedIndex = response.data.frenchIndex || 0;
                     setFrenchIndex(fetchedIndex);
+                    setNewWordIndex(fetchedIndex);
+                    setWords(frenchWords.slice(0, fetchedIndex));
                 }
             } catch (error) {
                 console.log("err fetching FR index or words", error);
             }
-        }
+        };
 
-        fetchFrenchIndex();
-    },[userId]);
+        if(frenchWords.length > 0) fetchFrenchIndex();
+    },[userId, frenchWords]);
 
     const updateFrenchIndex = async (newIndex) => {// UPDATE MAX FRENCH INDEX
         try {
-            if(!userId){
-                console.log("Usr Id not found");
-                return
-            }
-            const response = await axios.put(`https://lingwit-backend.onrender.com/api/auth/user/${userId}`, {
+            await axios.put(`https://lingwit-backend.onrender.com/api/auth/user/${userId}`, {
                 frenchIndex: newIndex
             });
-            if (response.status === 200) {
-                console.log("updated", frenchIndex);
-            }
+            console.log("index updated to", newIndex);
         } catch (error) {
             console.log("err updating FR index", error);
         }
@@ -116,7 +114,6 @@ function FrenchPage() {
             if (newWordIndex < newWords.length) {
                 const newWordsAdd = newWords.slice(newWordIndex, newWordIndex + numbToDisplay);
                 setWords(prevWords => [...prevWords, ...newWordsAdd]);
-                const updatedIndex = newWordIndex + numbToDisplay;
                 setNewWordIndex(newWordIndex + numbToDisplay);
 
                 //backend update
@@ -131,6 +128,7 @@ function FrenchPage() {
     }
 
     const handleRemove = () => {
+        if(words.length <= 0 ) return;
         const updatedIndex = newWordIndex - numbToDisplay;
         setWords(prevWords => prevWords.slice(0, -numbToDisplay));
         setNewWordIndex(updatedIndex);
