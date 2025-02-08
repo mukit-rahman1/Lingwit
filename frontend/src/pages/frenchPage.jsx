@@ -85,7 +85,7 @@ function FrenchPage() {
             try {    
                 const response = await axios.get(`https://lingwit-backend.onrender.com/api/auth/user/${userId}`);
                 if (response.status === 200) {
-                    const fetchedIndex = response.data.frenchIndex || 0;
+                    const fetchedIndex = response.data.frenchIndex || 10;
                     setFrenchIndex(fetchedIndex);
                     setNewWordIndex(fetchedIndex);
                     setWords(frenchWords.slice(0, fetchedIndex));
@@ -118,7 +118,7 @@ function FrenchPage() {
 
                 //backend update
                 if (userId) {
-                    updateFrenchIndex(updatedIndex);
+                    updateFrenchIndex(newWordIndex + numbToDisplay);
                 }
                 else { console.log("no user id") };
             }
