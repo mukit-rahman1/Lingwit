@@ -25,8 +25,8 @@ function HomePage() {
     return (<>
         <HeaderTop />
         <div className="side-bar">
-        <div className="sign-out">
-            <li onClick={handleLogOut}>Sign Out</li>
+        <div className="sign-out" onClick={handleLogOut}>
+            <a>Sign Out</a>
         </div>
         </div>
         <div className="boxes-container">

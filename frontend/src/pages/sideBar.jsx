@@ -24,8 +24,8 @@ function SideBar() {
             <li onClick={handleLangPick}>Switch Language</li>
             
         </ul>
-        <div className="sign-out">
-            <a onClick={handleLogOut}>Sign Out</a>
+        <div className="sign-out" onClick={handleLogOut}>
+            <a>Sign Out</a>
         </div>
         {langPick && (
             <div className="lang-picker">
